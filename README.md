@@ -1,2 +1,2 @@
-# simple-invoice-maker
-create your invoice for free
+# Simple Invoice Maker
+Create Your invoice using this tool.
