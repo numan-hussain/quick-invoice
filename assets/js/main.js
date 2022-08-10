@@ -436,14 +436,18 @@ class InvoiceMaker {
                     </tr>
                 </thead>
                 <tbody>
-                    ${data.items.map(item => `
+                    ${data.items.length > 0 ? data.items.map(item => `
                         <tr>
-                            <td>${item.description}</td>
+                            <td>${item.description || 'No description'}</td>
                             <td>${item.quantity}</td>
                             <td>${currencySymbol}${item.rate.toFixed(2)}</td>
                             <td class="amount">${currencySymbol}${item.amount.toFixed(2)}</td>
                         </tr>
-                    `).join('')}
+                    `).join('') : `
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 20px; color: #666;">No items added yet</td>
+                        </tr>
+                    `}
                 </tbody>
             </table>
 
@@ -484,7 +488,21 @@ class InvoiceMaker {
         // Apply template class
         invoicePreview.className = `invoice-preview ${this.currentTemplate}-template`;
         
-        document.getElementById('previewModal').style.display = 'block';
+        // Show the modal
+        const modal = document.getElementById('previewModal');
+        modal.style.display = 'block';
+        
+        // Force a reflow to ensure content is rendered
+        invoicePreview.offsetHeight;
+        
+        // Ensure all content is visible (fix for white screen)
+        setTimeout(() => {
+            const elements = invoicePreview.querySelectorAll('*');
+            elements.forEach(el => {
+                el.style.visibility = 'visible';
+                el.style.opacity = '1';
+            });
+        }, 100);
     }
 
     hidePreview() {
@@ -492,17 +510,75 @@ class InvoiceMaker {
     }
 
     printInvoice() {
-        window.print();
+        // Ensure modal is visible and preview is generated
+        const modal = document.getElementById('previewModal');
+        const preview = document.getElementById('invoicePreview');
+        
+        if (!modal.style.display || modal.style.display === 'none') {
+            this.showPreview();
+        }
+        
+        // Ensure content is visible before printing
+        const elements = preview.querySelectorAll('*');
+        elements.forEach(el => {
+            el.style.visibility = 'visible';
+            el.style.opacity = '1';
+            el.style.display = el.style.display || 'block';
+        });
+        
+        // Special handling for table elements
+        const tables = preview.querySelectorAll('table, thead, tbody, tr, td, th');
+        tables.forEach(el => {
+            if (el.tagName === 'TABLE') el.style.display = 'table';
+            else if (el.tagName === 'THEAD') el.style.display = 'table-header-group';
+            else if (el.tagName === 'TBODY') el.style.display = 'table-row-group';
+            else if (el.tagName === 'TR') el.style.display = 'table-row';
+            else if (el.tagName === 'TD' || el.tagName === 'TH') el.style.display = 'table-cell';
+        });
+        
+        // Add print class to body for print-specific styling
+        document.body.classList.add('printing');
+        
+        // Small delay to ensure styles are applied
+        setTimeout(() => {
+            try {
+                window.print();
+            } catch (error) {
+                console.error('Print error:', error);
+                alert('There was an issue printing. Please try again.');
+            }
+            
+            // Clean up after print
+            setTimeout(() => {
+                document.body.classList.remove('printing');
+            }, 1000);
+        }, 200);
     }
 
     async downloadPDF() {
-        // Show the preview first
+        // Show the preview modal first to ensure content is generated
         this.showPreview();
         
-        // Simple implementation: suggest using browser's print to PDF
+        // Wait a moment for the modal to render
         setTimeout(() => {
-            if (confirm('This will open the print dialog. Choose "Save as PDF" from your printer options to download the invoice as PDF.')) {
+            // Add print class to body
+            document.body.classList.add('printing');
+            
+            // Ensure content is visible
+            const preview = document.getElementById('invoicePreview');
+            if (preview) {
+                const elements = preview.querySelectorAll('*');
+                elements.forEach(el => {
+                    el.style.visibility = 'visible';
+                    el.style.opacity = '1';
+                });
+            }
+            
+            if (confirm('This will open the print dialog. Choose "Save as PDF" from your printer options to download the invoice as PDF.\n\nThe invoice will appear in black and white professional format.')) {
                 this.printInvoice();
+            } else {
+                // Remove printing class if user cancels
+                document.body.classList.remove('printing');
             }
         }, 500);
     }
