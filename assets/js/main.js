@@ -510,77 +510,371 @@ class InvoiceMaker {
     }
 
     printInvoice() {
-        // Ensure modal is visible and preview is generated
+        // Create a new window with just the invoice content
         const modal = document.getElementById('previewModal');
         const preview = document.getElementById('invoicePreview');
         
         if (!modal.style.display || modal.style.display === 'none') {
             this.showPreview();
+            setTimeout(() => this.printInvoice(), 300);
+            return;
         }
         
-        // Ensure content is visible before printing
-        const elements = preview.querySelectorAll('*');
-        elements.forEach(el => {
-            el.style.visibility = 'visible';
-            el.style.opacity = '1';
-            el.style.display = el.style.display || 'block';
-        });
+        // Get the invoice HTML content
+        const invoiceHTML = preview.innerHTML;
+        const data = this.getInvoiceData();
+        const invoiceNumber = data.invoice.number || 'INV-001';
         
-        // Special handling for table elements
-        const tables = preview.querySelectorAll('table, thead, tbody, tr, td, th');
-        tables.forEach(el => {
-            if (el.tagName === 'TABLE') el.style.display = 'table';
-            else if (el.tagName === 'THEAD') el.style.display = 'table-header-group';
-            else if (el.tagName === 'TBODY') el.style.display = 'table-row-group';
-            else if (el.tagName === 'TR') el.style.display = 'table-row';
-            else if (el.tagName === 'TD' || el.tagName === 'TH') el.style.display = 'table-cell';
-        });
+        // Create a new window
+        const printWindow = window.open('', '_blank', 'width=800,height=600');
         
-        // Add print class to body for print-specific styling
-        document.body.classList.add('printing');
+        // Write the complete HTML document to the new window
+        printWindow.document.write(`
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice ${invoiceNumber}</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            margin: 0;
+            padding: 30px;
+            background: white;
+            color: #000;
+            font-size: 12pt;
+            line-height: 1.4;
+        }
         
-        // Small delay to ensure styles are applied
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #000;
+            page-break-inside: avoid;
+        }
+        
+        .preview-company {
+            flex: 1;
+            margin-right: 20px;
+        }
+        
+        .preview-company h2 {
+            font-size: 18pt;
+            font-weight: bold;
+            margin: 0 0 8px 0;
+            color: #000;
+            line-height: 1.2;
+        }
+        
+        .preview-company p {
+            margin: 2px 0;
+            color: #000;
+            font-size: 10pt;
+            line-height: 1.3;
+        }
+        
+        .preview-company-logo {
+            max-width: 100px;
+            max-height: 60px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .preview-invoice-details {
+            text-align: right;
+            flex: 1;
+            max-width: 300px;
+        }
+        
+        .preview-invoice-title {
+            font-size: 24pt;
+            color: #000;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border: 2px solid #000;
+            padding: 8px 15px;
+            display: inline-block;
+            letter-spacing: 1px;
+            background: white;
+        }
+        
+        .preview-invoice-details p {
+            margin: 3px 0;
+            color: #000;
+            font-size: 10pt;
+            line-height: 1.3;
+        }
+        
+        .preview-section {
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+        
+        .preview-section h3 {
+            color: #000;
+            margin-bottom: 8px;
+            font-size: 12pt;
+            font-weight: bold;
+            border-bottom: 1px solid #000;
+            padding-bottom: 2px;
+        }
+        
+        .preview-section p {
+            margin: 2px 0;
+            color: #000;
+            font-size: 10pt;
+            line-height: 1.3;
+        }
+        
+        .preview-items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border: 1px solid #000;
+        }
+        
+        .preview-items-table th {
+            background: #000;
+            color: white;
+            padding: 8px 6px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 10pt;
+            border: 1px solid #000;
+        }
+        
+        .preview-items-table td {
+            padding: 6px;
+            border: 1px solid #000;
+            font-size: 10pt;
+            color: #000;
+            vertical-align: top;
+        }
+        
+        .preview-items-table .amount {
+            text-align: right;
+            font-weight: bold;
+        }
+        
+        .preview-items-table tbody tr:nth-child(even) td {
+            background: #f5f5f5;
+        }
+        
+        .preview-totals {
+            margin-top: 20px;
+            margin-left: auto;
+            width: 300px;
+            border: 1px solid #000;
+            padding: 15px;
+            background: #f8f8f8;
+            page-break-inside: avoid;
+        }
+        
+        .preview-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3px 0;
+            font-size: 10pt;
+            color: #000;
+        }
+        
+        .preview-final-total {
+            border-top: 2px solid #000;
+            padding-top: 6px;
+            margin-top: 8px;
+            font-weight: bold;
+            font-size: 12pt;
+        }
+        
+        @media print {
+            body { margin: 0.5in; }
+            @page { size: A4; margin: 0.5in; }
+        }
+    </style>
+</head>
+<body>
+    ${invoiceHTML}
+</body>
+</html>
+        `);
+        
+        printWindow.document.close();
+        
+        // Wait for content to load, then print
         setTimeout(() => {
-            try {
-                window.print();
-            } catch (error) {
-                console.error('Print error:', error);
-                alert('There was an issue printing. Please try again.');
-            }
+            printWindow.focus();
+            printWindow.print();
             
-            // Clean up after print
+            // Close the window after printing (optional)
             setTimeout(() => {
-                document.body.classList.remove('printing');
-            }, 1000);
-        }, 200);
+                printWindow.close();
+            }, 100);
+        }, 500);
     }
 
     async downloadPDF() {
-        // Show the preview modal first to ensure content is generated
-        this.showPreview();
-        
-        // Wait a moment for the modal to render
-        setTimeout(() => {
-            // Add print class to body
-            document.body.classList.add('printing');
+        try {
+            // Show the preview first
+            this.showPreview();
             
-            // Ensure content is visible
+            // Wait for content to render
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
             const preview = document.getElementById('invoicePreview');
-            if (preview) {
-                const elements = preview.querySelectorAll('*');
-                elements.forEach(el => {
-                    el.style.visibility = 'visible';
-                    el.style.opacity = '1';
+            const data = this.getInvoiceData();
+            
+            // Try to use jsPDF if available for direct PDF generation
+            if (typeof window.jsPDF !== 'undefined') {
+                const { jsPDF } = window.jsPDF;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                
+                // Use html2canvas to convert the content to image, then add to PDF
+                if (typeof html2canvas !== 'undefined') {
+                    try {
+                        // Temporarily show the preview content in a clean state
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = preview.innerHTML;
+                        tempDiv.style.cssText = `
+                            position: absolute;
+                            top: -9999px;
+                            left: -9999px;
+                            width: 800px;
+                            background: white;
+                            color: black;
+                            font-family: 'Times New Roman', serif;
+                            font-size: 14px;
+                            line-height: 1.4;
+                            padding: 20px;
+                        `;
+                        
+                        // Add specific styles for PDF generation
+                        const style = document.createElement('style');
+                        style.textContent = `
+                            .preview-header { display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 2px solid black; padding-bottom: 10px; }
+                            .preview-company h2 { font-size: 18px; margin: 0 0 5px 0; font-weight: bold; }
+                            .preview-company p { margin: 2px 0; font-size: 12px; }
+                            .preview-invoice-details { text-align: right; }
+                            .preview-invoice-title { font-size: 20px; font-weight: bold; border: 2px solid black; padding: 5px 10px; display: inline-block; }
+                            .preview-items-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+                            .preview-items-table th { background: black; color: white; padding: 8px; border: 1px solid black; }
+                            .preview-items-table td { padding: 6px; border: 1px solid black; }
+                            .preview-totals { margin-top: 20px; width: 300px; margin-left: auto; border: 1px solid black; padding: 10px; }
+                            .preview-total-row { display: flex; justify-content: space-between; margin: 5px 0; }
+                            .preview-final-total { border-top: 2px solid black; padding-top: 5px; margin-top: 5px; font-weight: bold; }
+                        `;
+                        tempDiv.appendChild(style);
+                        document.body.appendChild(tempDiv);
+                        
+                        const canvas = await html2canvas(tempDiv, {
+                            backgroundColor: '#ffffff',
+                            scale: 2,
+                            useCORS: true,
+                            allowTaint: true
+                        });
+                        
+                        document.body.removeChild(tempDiv);
+                        
+                        const imgData = canvas.toDataURL('image/png');
+                        const imgWidth = 190; // A4 width minus margins
+                        const pageHeight = 297; // A4 height
+                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                        
+                        pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+                        
+                        // Generate filename with invoice number and date
+                        const invoiceNumber = data.invoice.number || 'INV-001';
+                        const invoiceDate = data.invoice.date ? new Date(data.invoice.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+                        const cleanInvoiceNumber = invoiceNumber.replace(/[^\w\-]/g, '');
+                        const filename = `Invoice-${cleanInvoiceNumber}-${invoiceDate}.pdf`;
+                        
+                        pdf.save(filename);
+                        return;
+                        
+                    } catch (error) {
+                        console.error('PDF generation error:', error);
+                    }
+                }
+                
+                // Fallback: Simple text-based PDF
+                const invoiceNumber = data.invoice.number || 'INV-001';
+                const invoiceDate = data.invoice.date ? new Date(data.invoice.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+                const cleanInvoiceNumber = invoiceNumber.replace(/[^\w\-]/g, '');
+                const filename = `Invoice-${cleanInvoiceNumber}-${invoiceDate}.pdf`;
+                
+                // Add content to PDF
+                pdf.setFontSize(20);
+                pdf.text('INVOICE', 105, 20, { align: 'center' });
+                
+                pdf.setFontSize(12);
+                let yPos = 40;
+                
+                // Company info
+                pdf.text(`Company: ${data.company.name || 'N/A'}`, 20, yPos);
+                yPos += 7;
+                if (data.company.address) {
+                    pdf.text(`Address: ${data.company.address}`, 20, yPos);
+                    yPos += 7;
+                }
+                if (data.company.email) {
+                    pdf.text(`Email: ${data.company.email}`, 20, yPos);
+                    yPos += 7;
+                }
+                
+                yPos += 10;
+                
+                // Invoice details
+                pdf.text(`Invoice #: ${data.invoice.number}`, 120, 40);
+                pdf.text(`Date: ${this.formatDate(data.invoice.date)}`, 120, 47);
+                pdf.text(`Due: ${this.formatDate(data.invoice.dueDate)}`, 120, 54);
+                
+                // Client info
+                pdf.text(`Bill To: ${data.client.name || 'N/A'}`, 20, yPos);
+                yPos += 7;
+                if (data.client.address) {
+                    pdf.text(data.client.address, 20, yPos);
+                    yPos += 7;
+                }
+                
+                yPos += 15;
+                
+                // Items
+                pdf.text('Description', 20, yPos);
+                pdf.text('Qty', 120, yPos);
+                pdf.text('Rate', 140, yPos);
+                pdf.text('Amount', 170, yPos);
+                yPos += 7;
+                
+                pdf.line(20, yPos, 190, yPos); // Header line
+                yPos += 5;
+                
+                const currencySymbol = this.currencySymbols[data.invoice.currency];
+                data.items.forEach(item => {
+                    pdf.text(item.description || 'Item', 20, yPos);
+                    pdf.text(item.quantity.toString(), 120, yPos);
+                    pdf.text(`${currencySymbol}${item.rate.toFixed(2)}`, 140, yPos);
+                    pdf.text(`${currencySymbol}${item.amount.toFixed(2)}`, 170, yPos);
+                    yPos += 7;
                 });
+                
+                yPos += 10;
+                pdf.text(`Total: ${currencySymbol}${data.totals.total.toFixed(2)}`, 170, yPos);
+                
+                pdf.save(filename);
+                return;
             }
             
-            if (confirm('This will open the print dialog. Choose "Save as PDF" from your printer options to download the invoice as PDF.\n\nThe invoice will appear in black and white professional format.')) {
-                this.printInvoice();
-            } else {
-                // Remove printing class if user cancels
-                document.body.classList.remove('printing');
-            }
-        }, 500);
+            // Fallback to print window if jsPDF is not available
+            this.printInvoice();
+            
+        } catch (error) {
+            console.error('Download error:', error);
+            alert('Unable to generate PDF directly. Opening print window instead.');
+            this.printInvoice();
+        }
     }
 
     clearAll() {

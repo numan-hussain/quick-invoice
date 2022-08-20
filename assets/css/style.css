@@ -1592,23 +1592,14 @@ section h2 {
     /* This section is now handled by the comprehensive print styles above */
 }
 
-/* Print Styles - Clean Black and White Design */
+/* Simple Print Styles */
 @media print {
-    /* Reset everything for print */
-    * {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-        color-adjust: exact !important;
-    }
-    
-    /* Hide everything when printing */
-    body.printing > *:not(.modal) {
+    /* Hide everything except modal when printing from main page */
+    body > *:not(#previewModal) {
         display: none !important;
-        visibility: hidden !important;
     }
     
-    /* Show only modal when printing */
-    body.printing .modal {
+    #previewModal {
         display: block !important;
         position: static !important;
         background: white !important;
@@ -1616,368 +1607,27 @@ section h2 {
         height: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
-        box-shadow: none !important;
-        border-radius: 0 !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        overflow: visible !important;
     }
     
-    body.printing .modal-content {
-        position: static !important;
-        transform: none !important;
-        width: 100% !important;
-        max-width: none !important;
-        max-height: none !important;
-        background: white !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        box-shadow: none !important;
-        border-radius: 0 !important;
-        overflow: visible !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-    
-    /* Hide modal UI elements when printing */
-    body.printing .modal-header,
-    body.printing .modal-actions {
+    #previewModal .modal-header,
+    #previewModal .modal-actions {
         display: none !important;
-        visibility: hidden !important;
     }
     
-    /* Style the invoice preview for print */
-    body.printing .invoice-preview {
-        display: block !important;
-        visibility: visible !important;
-        position: static !important;
-        width: 100% !important;
-        height: auto !important;
-        padding: 30px !important;
-        margin: 0 !important;
+    #invoicePreview {
+        padding: 20px !important;
         background: white !important;
-        color: #000 !important;
+        color: black !important;
         font-family: 'Times New Roman', serif !important;
-        font-size: 12pt !important;
-        line-height: 1.4 !important;
-        overflow: visible !important;
-        max-height: none !important;
-        opacity: 1 !important;
     }
     
-    /* Make sure all content is visible */
-    body.printing .invoice-preview * {
-        visibility: visible !important;
-        opacity: 1 !important;
-        display: block !important;
-    }
-    
-    body.printing .invoice-preview table,
-    body.printing .invoice-preview thead,
-    body.printing .invoice-preview tbody,
-    body.printing .invoice-preview tr,
-    body.printing .invoice-preview td,
-    body.printing .invoice-preview th {
-        display: table !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .invoice-preview thead {
-        display: table-header-group !important;
-    }
-    
-    body.printing .invoice-preview tbody {
-        display: table-row-group !important;
-    }
-    
-    body.printing .invoice-preview tr {
-        display: table-row !important;
-    }
-    
-    body.printing .invoice-preview td,
-    body.printing .invoice-preview th {
-        display: table-cell !important;
-    }
-    
-    /* Header styling */
-    body.printing .preview-header {
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: flex-start !important;
-        margin-bottom: 30px !important;
-        padding-bottom: 15px !important;
-        border-bottom: 2px solid #000 !important;
-        background: none !important;
-        page-break-inside: avoid !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .preview-company {
-        flex: 1 !important;
-        margin-right: 20px !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .preview-company h2 {
-        font-size: 18pt !important;
-        font-weight: bold !important;
-        margin: 0 0 8px 0 !important;
-        color: #000 !important;
-        line-height: 1.2 !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        display: block !important;
-    }
-    
-    body.printing .preview-company p {
-        margin: 2px 0 !important;
-        color: #000 !important;
-        font-size: 10pt !important;
-        line-height: 1.3 !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        display: block !important;
-    }
-    
-    body.printing .preview-company-logo {
-        max-width: 100px !important;
-        max-height: 60px !important;
-        object-fit: contain !important;
-        margin-bottom: 10px !important;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .preview-invoice-details {
-        text-align: right !important;
-        flex: 1 !important;
-        max-width: 300px !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .preview-invoice-title {
-        font-size: 24pt !important;
-        color: #000 !important;
-        font-weight: bold !important;
-        margin-bottom: 10px !important;
-        border: 2px solid #000 !important;
-        padding: 8px 15px !important;
-        display: inline-block !important;
-        letter-spacing: 1px !important;
-        background: white !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .preview-invoice-details p {
-        margin: 3px 0 !important;
-        color: #000 !important;
-        font-size: 10pt !important;
-        line-height: 1.3 !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        display: block !important;
-    }
-    
-    body.printing .preview-invoice-details strong {
-        font-weight: bold !important;
-        color: #000 !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        display: inline !important;
-    }
-    
-    /* Sections */
-    body.printing .preview-section {
-        margin-bottom: 20px !important;
-        page-break-inside: avoid !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        display: block !important;
-    }
-    
-    body.printing .preview-section h3 {
-        color: #000 !important;
-        margin-bottom: 8px !important;
-        font-size: 12pt !important;
-        font-weight: bold !important;
-        border-bottom: 1px solid #000 !important;
-        padding-bottom: 2px !important;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .preview-section p {
-        margin: 2px 0 !important;
-        color: #000 !important;
-        font-size: 10pt !important;
-        line-height: 1.3 !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        display: block !important;
-    }
-    
-    body.printing .preview-section strong {
-        font-weight: bold !important;
-        color: #000 !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        display: inline !important;
-    }
-    
-    /* Table styling */
-    body.printing .preview-items-table {
-        width: 100% !important;
-        border-collapse: collapse !important;
-        margin: 20px 0 !important;
-        border: 1px solid #000 !important;
-        page-break-inside: auto !important;
-        display: table !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .preview-items-table thead {
-        display: table-header-group !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .preview-items-table th {
-        background: #000 !important;
-        color: white !important;
-        padding: 8px 6px !important;
-        text-align: left !important;
-        font-weight: bold !important;
-        font-size: 10pt !important;
-        border: 1px solid #000 !important;
-        display: table-cell !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .preview-items-table tbody {
-        display: table-row-group !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .preview-items-table td {
-        padding: 6px !important;
-        border: 1px solid #000 !important;
-        font-size: 10pt !important;
-        color: #000 !important;
-        vertical-align: top !important;
-        display: table-cell !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .preview-items-table .amount {
-        text-align: right !important;
-        font-weight: bold !important;
-    }
-    
-    body.printing .preview-items-table tbody tr:nth-child(even) {
-        background: #f5f5f5 !important;
-    }
-    
-    body.printing .preview-items-table tbody tr {
-        display: table-row !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    /* Totals section */
-    body.printing .preview-totals {
-        margin-top: 20px !important;
-        margin-left: auto !important;
-        width: 300px !important;
-        border: 1px solid #000 !important;
-        padding: 15px !important;
-        background: #f8f8f8 !important;
-        page-break-inside: avoid !important;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .preview-total-row {
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        padding: 3px 0 !important;
-        font-size: 10pt !important;
-        color: #000 !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .preview-total-row span {
-        color: #000 !important;
-        display: inline !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .preview-final-total {
-        border-top: 2px solid #000 !important;
-        padding-top: 6px !important;
-        margin-top: 8px !important;
-        font-weight: bold !important;
-        font-size: 12pt !important;
-    }
-    
-    body.printing .preview-final-total span {
-        color: #000 !important;
-        font-weight: bold !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    /* Page settings */
     @page {
-        margin: 0.5in !important;
-        size: A4 !important;
-    }
-    
-    /* Ensure no colors from screen styles */
-    body.printing .invoice-preview * {
-        background: white !important;
-        color: #000 !important;
-        box-shadow: none !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    /* Override any hidden elements specifically */
-    body.printing .invoice-preview .preview-header,
-    body.printing .invoice-preview .preview-company,
-    body.printing .invoice-preview .preview-invoice-details,
-    body.printing .invoice-preview .preview-section,
-    body.printing .invoice-preview .preview-items-table,
-    body.printing .invoice-preview .preview-totals {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-    
-    body.printing .invoice-preview .preview-header {
-        display: flex !important;
-    }
-    
-    body.printing .invoice-preview .preview-total-row {
-        display: flex !important;
+        margin: 0.5in;
+        size: A4;
     }
 }
 
-/* Body printing state */
+/* Body printing helper styles (for screen) */
 body.printing {
     overflow: hidden;
 }
@@ -1988,29 +1638,14 @@ body.printing .container {
     display: none !important;
 }
 
+/* Ensure modal is always visible when needed */
 body.printing .modal {
     display: block !important;
-    position: static !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 9999 !important;
     background: white !important;
-}
-
-/* Ensure modal content is visible during print */
-@media screen {
-    body.printing .modal {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        z-index: 9999 !important;
-        background: white !important;
-    }
-    
-    body.printing .modal-content {
-        width: 100% !important;
-        height: 100% !important;
-        max-width: none !important;
-        transform: none !important;
-        position: static !important;
-    }
 }

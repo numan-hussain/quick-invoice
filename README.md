@@ -1,4 +1,4 @@
-# 📄 Simple Invoice Maker
+# 📄 Quick Invoice
 
 [![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://numanhussain.com)
 [![Built with HTML](https://img.shields.io/badge/Built%20with-HTML%2FCSS%2FJS-blue.svg)](#)
@@ -6,9 +6,9 @@
 
 > Create professional invoices in minutes with this free, easy-to-use invoice generator designed for small businesses and freelancers.
 
-**🔗 Live Demo**: [View Demo](https://numan-hussain.github.io/simple-invoice-maker)
+**🔗 Live Demo**: [View Demo](https://numan-hussain.github.io/quick-invoice/)
 
-![Invoice Maker Preview](https://via.placeholder.com/800x400/3498db/ffffff?text=Simple+Invoice+Maker+Preview)
+![Quick Invoice Preview](https://via.placeholder.com/800x400/3498db/ffffff?text=Quick+Invoice+Preview)
 
 ## ✨ Features
 
@@ -34,6 +34,8 @@
 - Dynamic item management (add/remove items easily)
 - Real-time calculations for subtotals, taxes, and discounts
 - Multiple currency support (USD, EUR, GBP, CAD, AUD)
+- **Direct PDF Download** - No print dialog required
+- **Smart Filenames** - Auto-generated with invoice number and date
 - Professional invoice preview with print functionality
 
 ### 📱 **Mobile-First Design**
@@ -52,10 +54,10 @@
 ### Option 2: Local Development
 ```bash
 # Clone the repository
-git clone https://github.com/numan-hussain/simple-invoice-maker.git
+git clone https://github.com/numan-hussain/quick-invoice.git
 
 # Navigate to project directory
-cd simple-invoice-maker
+cd quick-invoice
 
 # Open in your preferred code editor
 code .
@@ -96,7 +98,9 @@ Select from three professional templates that best match your brand:
 
 ### 6. **Preview & Download**
 - Click "Preview" to see your formatted invoice
+- Use "Download PDF" for direct PDF file download with smart naming
 - Use "Print" to save as PDF through your browser
+- Files automatically named with invoice number and date (e.g., "Invoice-INV001-2024-12-15.pdf")
 - All data saves automatically for future use
 
 ## 🛠️ Technical Details
@@ -105,6 +109,7 @@ Select from three professional templates that best match your brand:
 - **HTML5**: Semantic markup for accessibility
 - **CSS3**: Modern styling with Flexbox and Grid
 - **Vanilla JavaScript**: No dependencies, pure ES6+
+- **jsPDF & html2canvas**: Direct PDF generation libraries
 - **Font Awesome 5.15.4**: Professional icons
 - **Local Storage API**: Client-side data persistence
 
@@ -130,7 +135,7 @@ const total = subtotal - discountAmount + taxAmount;
 ## 📁 Project Structure
 
 ```
-simple-invoice-maker/
+quick-invoice/
 ├── index.html              # Main HTML file
 ├── assets/
 │   ├── css/
@@ -198,8 +203,10 @@ We welcome contributions! Here's how you can help:
 - Additional currency support
 - New invoice templates
 - Enhanced PDF export functionality
+- Multi-language invoice templates
 - Internationalization (i18n)
 - Performance optimizations
+- Advanced tax calculation features
 
 ## 📄 License
 
