@@ -6,7 +6,7 @@
 
 > Create professional invoices in minutes with this free, easy-to-use invoice generator designed for small businesses and freelancers.
 
-**🔗 Live Demo**: [View Demo](https://numan-hussain.github.io/quick-invoice/)
+**🔗 Live Demo**: [View Demo](https://tools.numanhussain.com/quick-invoice/)
 
 ![Quick Invoice Preview](https://via.placeholder.com/800x400/3498db/ffffff?text=Quick+Invoice+Preview)
 
