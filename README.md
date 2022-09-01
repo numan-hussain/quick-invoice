@@ -8,8 +8,6 @@
 
 **🔗 Live Demo**: [View Demo](https://tools.numanhussain.com/quick-invoice/)
 
-![Quick Invoice Preview](https://via.placeholder.com/800x400/3498db/ffffff?text=Quick+Invoice+Preview)
-
 ## ✨ Features
 
 ### 🎨 **Multiple Design Templates**
