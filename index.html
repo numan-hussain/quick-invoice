@@ -3,9 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main File</title>
+    <title>Invoice Generator</title>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    
+    <header>
+        <h1>Invoice Generator</h1>
+    </header>
+
+    <main>
+        <form id="invoice-form">
+            <section id="sender-details">
+                <h2>Sender Details</h2>
+                <div>
+                    <label for="sender-name">Name:</label>
+                    <input type="text" id="sender-name" name="sender-name" required>
+                </div>
+                <div>
+                    <label for="sender-address">Address:</label>
+                    <input type="text" id="sender-address" name="sender-address" required>
+                </div>
+                <div>
+                    <label for="sender-email">Email:</label>
+                    <input type="email" id="sender-email" name="sender-email" required>
+                </div>
+                <div>
+                    <label for="sender-phone">Phone:</label>
+                    <input type="tel" id="sender-phone" name="sender-phone" required>
+                </div>
+            </section>
+
+            <section id="recipient-details">
+                <h2>Recipient Details</h2>
+                <div>
+                    <label for="recipient-name">Name:</label>
+                    <input type="text" id="recipient-name" name="recipient-name" required>
+                </div>
+                <div>
+                    <label for="recipient-address">Address:</label>
+                    <input type="text" id="recipient-address" name="recipient-address" required>
+                </div>
+                <div>
+                    <label for="recipient-email">Email:</label>
+                    <input type="email" id="recipient-email" name="recipient-email" required>
+                </div>
+                <div>
+                    <label for="recipient-phone">Phone:</label>
+                    <input type="tel" id="recipient-phone" name="recipient-phone" required>
+                </div>
+            </section>
+
+            <section id="invoice-meta">
+                <h2>Invoice Details</h2>
+                <div>
+                    <label for="invoice-number">Invoice Number:</label>
+                    <input type="text" id="invoice-number" name="invoice-number" required>
+                </div>
+                <div>
+                    <label for="invoice-date">Invoice Date:</label>
+                    <input type="date" id="invoice-date" name="invoice-date" required>
+                </div>
+                <div>
+                    <label for="due-date">Due Date:</label>
+                    <input type="date" id="due-date" name="due-date" required>
+                </div>
+            </section>
+
+            <section id="invoice-items">
+                <h2>Items</h2>
+                <table id="items-table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Line Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" class="item-description" name="item-description[]" required></td>
+                            <td><input type="number" class="item-quantity" name="item-quantity[]" value="1" min="1" required></td>
+                            <td><input type="number" class="item-unit-price" name="item-unit-price[]" value="0.00" step="0.01" min="0" required></td>
+                            <td><span class="line-total">0.00</span></td>
+                            <td><button type="button" class="remove-item-btn">Remove</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" id="add-item-btn">Add Item</button>
+            </section>
+
+            <section id="invoice-summary">
+                <h2>Summary</h2>
+                <div>
+                    <label for="subtotal">Subtotal:</label>
+                    <input type="text" id="subtotal" name="subtotal" readonly value="0.00">
+                </div>
+                <div>
+                    <label for="tax-rate">Tax (%):</label>
+                    <input type="number" id="tax-rate" name="tax-rate" value="0" min="0" step="0.01">
+                </div>
+                <div>
+                    <label for="grand-total">Grand Total:</label>
+                    <input type="text" id="grand-total" name="grand-total" readonly value="0.00">
+                </div>
+            </section>
+
+            <footer>
+                <button type="submit" id="generate-invoice-btn">Generate Invoice</button>
+            </footer>
+        </form>
+    </main>
+
+    <script src="assets/js/main.js"></script>
 </body>
 </html>

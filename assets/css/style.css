@@ -1,0 +1,212 @@
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+main {
+    width: 80%;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Section Styling */
+section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+section h2 {
+    color: #333;
+    margin-top: 0;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+/* Form Elements Styling */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="number"] {
+    width: calc(100% - 22px); /* Account for padding and border */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* So padding doesn't add to width */
+}
+
+input[readonly] {
+    background-color: #e9ecef;
+}
+
+button {
+    display: inline-block;
+    background: #337ab7;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #286090;
+}
+
+#add-item-btn {
+    background: #5cb85c;
+    margin-top: 10px;
+}
+
+#add-item-btn:hover {
+    background: #4cae4c;
+}
+
+footer button {
+    background: #d9534f;
+}
+
+footer button:hover {
+    background: #c9302c;
+}
+
+/* Table Styling */
+#items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+#items-table th,
+#items-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#items-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+#items-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#items-table input[type="text"],
+#items-table input[type="number"] {
+    width: calc(100% - 16px); /* Adjust for cell padding */
+    margin-bottom: 0; /* Override general input margin */
+}
+
+.line-total {
+    font-weight: bold;
+}
+
+/* Invoice Summary Styling */
+#invoice-summary div {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#invoice-summary label {
+    margin-bottom: 0; /* Override general label margin */
+    flex-basis: 30%; /* Give label some space */
+}
+
+#invoice-summary input {
+    flex-basis: 65%; /* Input takes remaining space */
+    text-align: right;
+}
+
+
+/* Footer Styling */
+footer {
+    text-align: right;
+    margin-top: 30px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    main {
+        width: 95%;
+        padding: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="number"] {
+        width: calc(100% - 20px); /* Adjust for smaller screens */
+    }
+
+    #items-table {
+        display: block;
+        overflow-x: auto; /* Allow horizontal scrolling for table */
+    }
+
+    #invoice-summary div {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #invoice-summary label {
+        margin-bottom: 5px;
+    }
+
+    #invoice-summary input {
+        width: 100%;
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    #add-item-btn {
+        width: auto; /* Keep add item button smaller */
+    }
+
+    footer {
+        text-align: center;
+    }
+}
